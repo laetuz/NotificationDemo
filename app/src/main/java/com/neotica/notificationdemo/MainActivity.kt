@@ -3,8 +3,11 @@ package com.neotica.notificationdemo
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
@@ -28,8 +31,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendNotification(){
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://neotica.id"))
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
         val mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentIntent(pendingIntent)
             .setSmallIcon(R.drawable.baseline_notifications_24)
             .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.baseline_notifications_24))
             .setContentTitle(resources.getString(R.string.content_title))
